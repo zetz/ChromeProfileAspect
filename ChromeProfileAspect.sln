@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeProfileAspect", "ChromeProfileAspect\ChromeProfileAspect.csproj", "{B4C77BF0-0710-4A62-9C7E-96A1308BDBC0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeProfileBuilder", "ChromeProfileBuilder\ChromeProfileBuilder.csproj", "{5F26DF1B-D40D-4A17-992C-B6DFEF8B4A3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{82CC50DB-4F5F-4D66-9C17-89ED3C99344C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,5 +17,20 @@ Global
 		{B4C77BF0-0710-4A62-9C7E-96A1308BDBC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4C77BF0-0710-4A62-9C7E-96A1308BDBC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4C77BF0-0710-4A62-9C7E-96A1308BDBC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F26DF1B-D40D-4A17-992C-B6DFEF8B4A3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F26DF1B-D40D-4A17-992C-B6DFEF8B4A3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F26DF1B-D40D-4A17-992C-B6DFEF8B4A3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F26DF1B-D40D-4A17-992C-B6DFEF8B4A3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82CC50DB-4F5F-4D66-9C17-89ED3C99344C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82CC50DB-4F5F-4D66-9C17-89ED3C99344C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82CC50DB-4F5F-4D66-9C17-89ED3C99344C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82CC50DB-4F5F-4D66-9C17-89ED3C99344C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
+		$0.StandardHeader = $2
+		$0.VersionControlPolicy = $3
 	EndGlobalSection
 EndGlobal

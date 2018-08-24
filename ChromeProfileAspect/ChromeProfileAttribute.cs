@@ -2,7 +2,8 @@
 
 namespace ChromeProfileAspect
 {
-	public class Class1
+	[AttributeUsage(AttributeTargets.Method)]
+	public class ChromeProfileAttribute : System.Attribute
 	{
 	}
 }
