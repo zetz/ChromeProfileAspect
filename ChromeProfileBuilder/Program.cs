@@ -27,13 +27,13 @@ namespace ChromeProfileBuilder
 				return false;
 
 			var getCurrentMethod = typeof(System.Reflection.MethodBase).GetMethod(nameof(System.Reflection.MethodBase.GetCurrentMethod));
-			var getCurrentMethodRef = assemblyDefinition.MainModule.Import(getCurrentMethod);
+			var getCurrentMethodRef = assemblyDefinition.MainModule.ImportReference(getCurrentMethod);
 
 			var logginAspectBefore = typeof(ChromeProfileManager).GetMethod(nameof(ChromeProfileManager.Enter), new[] { typeof(object), typeof(MethodBase) });
-			var logginAspectBeforeRef = assemblyDefinition.MainModule.Import(logginAspectBefore);
+			var logginAspectBeforeRef = assemblyDefinition.MainModule.ImportReference(logginAspectBefore);
 
 			var logginAspectAfter = typeof(ChromeProfileManager).GetMethod(nameof(ChromeProfileManager.Leave), new[] { typeof(object), typeof(MethodBase) });
-			var logginAspectAfterRef = assemblyDefinition.MainModule.Import(logginAspectAfter);
+			var logginAspectAfterRef = assemblyDefinition.MainModule.ImportReference(logginAspectAfter);
 
 			var il = method.Body.GetILProcessor();
 			var first = il.Body.Instructions.First();
@@ -93,35 +93,48 @@ namespace ChromeProfileBuilder
 
 			try {
 				foreach (var filename in assemblies) {
-					var assemblyDef = AssemblyDefinition.ReadAssembly(filename);
-					bool changed = false;
-					foreach (var module in assemblyDef.Modules) {
-						foreach (var type in module.Types) {
-							if (type.Name == "<Module>") continue;
-							foreach (var method in type.Methods) {
+					try {
+						var rp = new ReaderParameters();
+						rp.ReadSymbols = false;
+						rp.ReadWrite = true;
+						rp.InMemory = true;
 
-								if (!method.HasCustomAttributes)
-									continue;
+						var assemblyDef = AssemblyDefinition.ReadAssembly(filename, rp);
 
-								var aspectAttr = method.CustomAttributes.FirstOrDefault(ca => ca.AttributeType.Name.StartsWith(nameof(ChromeProfileAttribute)));
-								if (aspectAttr == null)
-									continue;
+						bool changed = false;
+						foreach (var module in assemblyDef.Modules) {
+							foreach (var type in module.Types) {
+								if (type.Name == "<Module>") continue;
+								foreach (var method in type.Methods) {
 
-								bool injected = Inject_ChromeProfileScope(assemblyDef, method);
-								if (injected) {
-									Console.WriteLine($"Inject!! {method.DeclaringType.Name}.{method.Name}");
+									if (!method.HasCustomAttributes)
+										continue;
+
+									var aspectAttr = method.CustomAttributes.FirstOrDefault(ca => ca.AttributeType.Name.StartsWith(nameof(ChromeProfileAttribute)));
+									if (aspectAttr == null)
+										continue;
+
+									bool injected = Inject_ChromeProfileScope(assemblyDef, method);
+									if (injected) {
+										Console.WriteLine($"Inject!! {method.DeclaringType.Name}.{method.Name}");
+									}
+									changed |= injected;
 								}
-								changed |= injected;
 							}
 						}
-					}
 
-					if (changed) {
-						// save to file
-						assemblyDef.Write(filename, new WriterParameters() {
-							WriteSymbols = true
-						});
-						Console.WriteLine($"Overwrite!! {filename}");
+						if (changed) {
+							// save to file
+							Console.WriteLine($"Overwriting!! {filename}");
+							assemblyDef.Write(filename, new WriterParameters() {
+								WriteSymbols = false,
+
+							});
+							Console.WriteLine($"Success");
+						}
+					} catch (Exception e) {
+						Console.WriteLine("{0}\r\n{1}", filename, e);
+
 					}
 				}
 			} catch (Exception e) {
