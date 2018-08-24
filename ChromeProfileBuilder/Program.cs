@@ -70,9 +70,7 @@ namespace ChromeProfileBuilder
 			string targetPath = null;
 			if (args.Length > 0) {
 				targetPath = args[0];
-			} else if (System.Diagnostics.Debugger.IsAttached) {
-				targetPath = "D:\\__imcProjects\\m3git\\Bin\\ManagementNode\\";
-			}
+			} 
 
 			if (string.IsNullOrEmpty(targetPath)) {
 				Show();

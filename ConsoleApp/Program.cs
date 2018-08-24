@@ -1,37 +1,34 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using ChromeProfileAspect;
-
 
 namespace ConsoleApp
 {
-	
+
 	class Program
 	{
 		static void Main(string[] args)
 		{
 			Console.WriteLine("Hello World!");
 
-			ChromeProfileManager.Enter(null, System.Reflection.MethodBase.GetCurrentMethod());
-
-			Thread.Sleep(1000);
-
-			ChromeProfileManager.Leave(null, System.Reflection.MethodBase.GetCurrentMethod());
-
-
-			Task.Factory.StartNew( () => {
-
-				ChromeProfileManager.Enter(null, System.Reflection.MethodBase.GetCurrentMethod());
-
-				Thread.Sleep(1000);
-
-				ChromeProfileManager.Leave(null, System.Reflection.MethodBase.GetCurrentMethod());
+			var objects = new List<GameObject>();
+			for (int i = 0; i < 100; ++i) {
+				objects.Add(new GameObject());
+			}
 
 
-			}).Wait();
+			var fiveSecondsTask = Task.Factory.StartNew(() => {
+				System.Threading.Thread.Sleep(5000);
+			});
 
+			while (fiveSecondsTask.IsCompleted == false) {
 
+				var result = Parallel.ForEach(objects, obj => {
+					obj.Update(0);
+				});
+
+			}
 		}
 	}
 }
