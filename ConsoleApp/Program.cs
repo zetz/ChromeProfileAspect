@@ -29,6 +29,9 @@ namespace ConsoleApp
 				});
 
 			}
+
+			// writing 
+			ChromeProfileAspect.ChromeProfileManager.Exit();
 		}
 	}
 }

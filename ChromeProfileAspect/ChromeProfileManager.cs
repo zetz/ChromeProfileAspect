@@ -182,10 +182,10 @@ namespace ChromeProfileAspect
 			if (_backgroundSaver != null)
 				return;
 
-			_backgroundSaver = new Thread(BackgroundSaver);
-			_backgroundSaver.Priority = ThreadPriority.Lowest;
-			_backgroundSaver.IsBackground = true;
-			_backgroundSaver.Start();
+			_backgroundSaver = new Thread(BackgroundSaver) {
+				Priority = ThreadPriority.Lowest,
+				IsBackground = true,
+			};
 		}
 
 		private static void BackgroundSaver()
@@ -194,7 +194,6 @@ namespace ChromeProfileAspect
 			{
 				lock (_threads) {
 					// 로그를 남겼던 스레드들이 모두 종료 되었으면 백그라운드 로거도 종료하자.
-
 					if (_threads.All(thd => thd.IsAlive == false)) {
 						break;
 					}
