@@ -5,5 +5,7 @@
  : ChromeProfileBuilder.exe [폴더명]
  
 * 테스트 시나리오
- : dotnet run --project ChromeProfileBuilder ConsoleApp/bin/Debug/netcoreapp2.0
- : dotnet run --project --no-build
+<pre><code>
+dotnet run --project ChromeProfileBuilder ConsoleApp/bin/Debug/netcoreapp2.0
+dotnet run --project --no-build
+</code></pre>
